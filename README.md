@@ -26,6 +26,12 @@ The key goals of this test suite are as follows:
  3. **Readability of Outputs** - Outputs of the tests should be clear and easy to visualize, drill down into any issues.
  4. **Ease of maintenance** - The tests themselves should be easy to write and understand. Adding test cases should be trivial.
 
+### Test Cases
+
+This is a general outline of test cases covered by this suite:
+
+TODO:: waiting for clarification (just test basic SSH commands under each profile, or testing individual cipher suites using `-c` under each test case as well)
+
 ### Technologies
 
 This test suite leverages a few key technologies to facilitate them:
