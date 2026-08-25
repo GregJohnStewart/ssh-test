@@ -150,3 +150,15 @@ Running the tests is a simple task of running the following:
 ```bash
 pytest
 ```
+
+### Listing Test Cases
+
+```bash
+pytest --collect-only
+```
+
+### Run just one test
+
+```bash
+pytest tests/test_crypto_policies.py::test_default_basic
+```
