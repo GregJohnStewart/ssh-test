@@ -2,8 +2,6 @@
 
 This is a test suite to test the cryptographic policies of OpenSSH server.
 
-[TOC]
-
 ## Test Plan
 
 Overall, the test plan is as follows. The tests are written using the Pytest framework, leveraging KVM/Libvirt as
