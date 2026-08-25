@@ -10,10 +10,10 @@ off of, as well as an incredibly flexible and repeatable testing flow.
 
 The test flow will follow these general steps:
 
- 0. **Initial setup** - Setup of the host, initial state of the guest VM to test against.
+ 0. **Initial setup** - Setup of the host, initial state of the guest VM to test against. Done just once.
  1. **Run Tests** - Run the test suite with standard `pytest` commands. Target guest VM is managed directly by the test suite,
     with snapshots being used to ensure consistent state between test cases
- 2. **Reports** - The Pytest framework ouptuts a test report, giving a clear picture of how the tests went, and any potential failures.
+ 2. **Reports** - The Pytest framework outputs a test report, giving a clear picture of how the tests went, and any potential failures.
 
 Rationale and further information below.
 
