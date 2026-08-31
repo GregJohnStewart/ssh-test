@@ -31,12 +31,12 @@ The key goals of this test suite are as follows:
 With the given prompt, the following test cases are implemented:
 
  - "Unchanged" configuration, to ensure "base" case can work
- - `DEFAULT` policy with allowed crypto algorithm
- - `DEFAULT` policy with forbidden crypto algorithm (sha1)
- - `LEGACY` policy with allowed crypto algorithm
- - `LEGACY` policy with forbidden crypto algorithm that was allowed under `DEFAULT`
+ - `DEFAULT` policy with allowed crypto algorithm (should work)
+ - `DEFAULT` policy with forbidden crypto algorithm (sha1) (should not work)
+ - `LEGACY` policy with allowed crypto algorithm (should work)
+ - `LEGACY` policy with crypto algorithm that was forbidden under `DEFAULT` (should work)
 
-Test cases are implemented as SSH calls to the test service with specific ssh commands to give.q
+Test cases are implemented as SSH calls to the test service with specific ssh commands to give.
 
 ### Technologies
 
