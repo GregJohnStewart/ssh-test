@@ -30,11 +30,11 @@ The key goals of this test suite are as follows:
 
 With the given prompt, the following test cases are implemented:
 
+ - "Unchanged" configuration, to ensure "base" case can work
  - `DEFAULT` policy with allowed crypto algorithm
- - `DEFAULT` policy with forbidden crypto algorithm
+ - `DEFAULT` policy with forbidden crypto algorithm (sha1)
  - `LEGACY` policy with allowed crypto algorithm
- - `LEGACT` policy with forbidden crypto algorithm that was allowed under `DEFAULT`
- - `LEGACT` policy with forbidden crypto algorithm
+ - `LEGACY` policy with forbidden crypto algorithm that was allowed under `DEFAULT`
 
 Test cases are implemented as SSH calls to the test service with specific ssh commands to give.q
 
@@ -127,10 +127,18 @@ After installing, run the following:
 sudo semanage permissive -a virt_qemu_ga_t
 ```
 
+Add the file `/etc/ssh/sshd_config.d/99-test.conf` with the following content:
+
+```text
+PubkeyAcceptedKeyTypes +ssh-rsa
+KexAlgorithms +diffie-hellman-group1-sha1,diffie-hellman-group14-sha1
+MACs +hmac-sha1
+```
+
 On host, enable passwordless ssh:
 
 ```bash
-ssh-copy-id tuser@192.168.125.168
+ssh-copy-id tuser@<ip of guest>
 ```
 
 ###### Usage / Verification
@@ -196,3 +204,7 @@ pytest tests/test_crypto_policies.py::test_default_basic
 
  - Came across significant challenges attempting to run certain commands on the guest/test host due to SELinux.
    Eventually found a workaround to allow the guest additions to be permissive but not affect the rest of the system.
+ - Some of the VM setup could likely be done through additional test automation. The addition of sha1 to the server's
+   configuration comes to mind.
+ - For a "true" production-ready solution, it's worth contemplating if worth doing with two VM's, one host and one client.
+   Would be more flexible and repeatable for tests.

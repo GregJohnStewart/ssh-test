@@ -174,3 +174,10 @@ class VirtMngmt(object):
         result = result["stdout"].split(" ")[6]
 
         return result
+
+    @classmethod
+    def setFileContents(cls, file:str, contents:str):
+        if not cls.testVmIsRunning():
+            raise SystemExit("VM is not running.")
+        cls.runCmdOnTestVm(["touch", file])
+        cls.runCmdOnTestVm(["/bin/bash", "-c", "echo " + contents, " > ", file])

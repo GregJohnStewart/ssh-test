@@ -7,16 +7,19 @@ class SshUtils(object):
     user = "tuser"
 
     @classmethod
-    def doSsh(cls, command: str):
+    def doSsh(cls, command: str, args:list[str] = []):
         return subprocess.run(
-            ["ssh", cls.user + "@" + VirtMngmt.getTestVmIp(), command],
+            ["ssh", *args, cls.user + "@" + VirtMngmt.getTestVmIp(), command],
             capture_output=True,
             check=False
         )
 
     @classmethod
-    def assertSsh(cls, worked: bool):
-        result = cls.doSsh("echo worked")
+    def assertSsh(cls, worked: bool, sshArgs: list[str] = []):
+        result = cls.doSsh("echo worked", args=sshArgs)
+
+        print("SSH result stdout:", result.stdout)
+        print("SSH result stderr:", result.stderr)
 
         if worked:
             assert result.returncode == 0
@@ -26,6 +29,8 @@ class SshUtils(object):
             assert str(result.stdout).find("worked") == -1
 
     @classmethod
-    def setTestServerSshPolicy(cls, policy: str):
+    def setTestServerCryptoPolicy(cls, policy: str):
+        print("Setting testServerCryptoPolicy to " + policy)
         VirtMngmt.runCmdOnTestVm(["update-crypto-policies", "--set", policy])
         VirtMngmt.runCmdOnTestVm(["systemctl", "restart", "sshd.service"])
+        VirtMngmt.runCmdOnTestVm(["update-crypto-policies", "--show"])
