@@ -28,9 +28,15 @@ The key goals of this test suite are as follows:
 
 ### Test Cases
 
-This is a general outline of test cases covered by this suite:
+With the given prompt, the following test cases are implemented:
 
-TODO:: waiting for clarification (just test basic SSH commands under each profile, or testing individual cipher suites using `-c` under each test case as well)
+ - `DEFAULT` policy with allowed crypto algorithm
+ - `DEFAULT` policy with forbidden crypto algorithm
+ - `LEGACY` policy with allowed crypto algorithm
+ - `LEGACT` policy with forbidden crypto algorithm that was allowed under `DEFAULT`
+ - `LEGACT` policy with forbidden crypto algorithm
+
+Test cases are implemented as SSH calls to the test service with specific ssh commands to give.q
 
 ### Technologies
 
@@ -78,7 +84,7 @@ Listed here are technologies which were potential options, but ultimately not ch
 On host, install the following:
 
 ```text
-sudo dnf install @virtualization
+sudo dnf install @virtualization libvirt-devel python3-devel gcc
 ```
 
 Then ensure your user has the permissions to manage and interact with the VM:
@@ -93,6 +99,8 @@ sudo usermod -a -G kvm $USER
 Start by creating a new VM, with the target OS (Fedora 44) installed.
 
 (Theoretically, we could make the test suite do this, but for this POC, not a big deal)
+
+Name the guest vm `ssh-test`
 
 ##### Setup Host-to-guest execution
 
