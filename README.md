@@ -100,7 +100,10 @@ Start by creating a new VM, with the target OS (Fedora 44) installed.
 
 (Theoretically, we could make the test suite do this, but for this POC, not a big deal)
 
-Name the guest vm `ssh-test`
+Important notes (these values are set in global class members in tests):
+
+ - Name the guest vm `ssh-test`
+ - Use a non-root account named `tuser`
 
 ##### Setup Host-to-guest execution
 
@@ -116,6 +119,18 @@ Install the following on the guest:
 
 ```text
 qemu-guest-agent && sudo systemctl enable --now qemu-guest-agent
+```
+
+After installing, run the following:
+
+```bash
+sudo semanage permissive -a virt_qemu_ga_t
+```
+
+On host, enable passwordless ssh:
+
+```bash
+ssh-copy-id tuser@192.168.125.168
 ```
 
 ###### Usage / Verification
@@ -176,3 +191,8 @@ pytest --collect-only
 ```bash
 pytest tests/test_crypto_policies.py::test_default_basic
 ```
+
+## Notes / "Hard" parts.
+
+ - Came across significant challenges attempting to run certain commands on the guest/test host due to SELinux.
+   Eventually found a workaround to allow the guest additions to be permissive but not affect the rest of the system.

@@ -55,6 +55,7 @@ class VirtMngmt(object):
         cls.snapshot = cls.domain.snapshotLookupByName(cls.snapshotName)
 
         cls.startTestVm()
+        cls.runCmdOnTestVm(["/bin/whoami"])
 
     @classmethod
     def tearDown(cls):
@@ -163,3 +164,13 @@ class VirtMngmt(object):
             raise SystemExit("Failed to revert VM to snapshot.")
 
         cls.startTestVm()
+
+    @classmethod
+    def getTestVmIp(cls)->str:
+        if not cls.testVmIsRunning():
+            raise SystemExit("VM is not running.")
+
+        result = cls.runCmdOnTestVm(["ip", "route", "get", "1.1.1.1"])
+        result = result["stdout"].split(" ")[6]
+
+        return result
